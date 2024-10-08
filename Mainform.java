@@ -215,8 +215,15 @@ public class Mainform extends JFrame implements ActionListener{
 					    bfr = new BufferedReader(new FileReader(path));
 		                readMatrix(bfr); 
 		                show(Matrancoso); 
-		                client_tcp=new Client_TCP(Matrancoso, Matrandungluong);
-		                client_tcp.connectToServer();
+		                // Kiểm tra xem client_tcp đã được khởi tạo chưa
+		                if (client_tcp == null) {
+		                    client_tcp = new Client_TCP(Matrancoso, Matrandungluong);
+		                    client_tcp.connectToServer(); // Kết nối tới server
+		                    client_tcp.sendDataToServer();
+		                } else {
+		                    // Nếu đã có kết nối, cập nhật dữ liệu cho client_tcp
+		                    client_tcp.updateData(Matrancoso, Matrandungluong);
+		                }
 		                Matranketqua=client_tcp.getMatranketqua();
 		                Distra1=client_tcp.getDistra1();
 		                
@@ -246,7 +253,14 @@ public class Mainform extends JFrame implements ActionListener{
 			
 		}
 		if(e.getSource()==ketthuc) {
-			System.exit(0);
+			 if (client_tcp != null) {
+			        try {
+			            client_tcp.closeConnection();
+			        } catch (Exception ex) {
+			            JOptionPane.showMessageDialog(this, "Lỗi khi đóng kết nối: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+			        }
+			    }
+			    System.exit(0);
 		}
 		if(e.getSource()==ketqua) {
 			if(Matrancoso==null || Matrandungluong==null) {
