@@ -11,33 +11,46 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 
-public class ClientHandler implements Runnable {
-    private Socket client;
-    private static ObjectOutputStream out;
-    private static ObjectInputStream in;
-    public ClientHandler(Socket sk) {
-        this.client = sk;
-       
-    }
+import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableModel;
 
+public class ClientHandler extends Thread {
+    private Socket client;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
+    private JTextArea textArea; 
+    private DefaultTableModel tableModel;
+    private int chisohang;
+    public ClientHandler(Socket sk, JTextArea textArea,DefaultTableModel tableModel,int chisohang) throws IOException {
+        this.client = sk;
+        this.textArea = textArea;
+        this.tableModel=tableModel;
+        this.chisohang=chisohang;
+        out = new ObjectOutputStream(client.getOutputStream());
+        in = new ObjectInputStream(client.getInputStream());
+        start();
+    }
+   
     @Override
     public void run() {
     	
         try {
-        	while(true) {
-            out = new ObjectOutputStream(client.getOutputStream());
-            in = new ObjectInputStream(client.getInputStream());
+        	
+        	while(true) {           
                      // Nhận dữ liệu từ client
             int[][] Matrancoso = (int[][]) in.readObject();
             int[][] Matrandungluong = (int[][]) in.readObject();
-            double[][] T_ = new double[Matrancoso.length][Matrancoso[0].length];
             
+            // Kiểm tra nếu client gửi tín hiệu kết thúc (gửi null)
+            if (Matrancoso == null || Matrandungluong == null) {           
+                break; // Thoát khỏi vòng lặp nếu nhận tín hiệu kết thúc
+            }
+            
+            double[][] T_ = new double[Matrancoso.length][Matrancoso[0].length];
             // Khởi tạo đối tượng Calculator với dữ liệu nhận được
             Calculator calculator = new Calculator(Matrancoso, Matrandungluong);
-            
             // Thực hiện tính toán và nhận về kết quả 
             Object[][] Matranketqua = calculator.computeFlow(Matrancoso, Matrandungluong, T_);
-            
             int[] Distra=calculator.dijkstra(T_);
             // Gửi ma trận kết quả về lại cho client
             out.writeObject(Matranketqua);
@@ -45,15 +58,16 @@ public class ClientHandler implements Runnable {
             out.flush();
         	}
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        	  textArea.append("Lỗi: " + e.getMessage() + "\n");
         } finally {          
-                try {
-					client.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-            
+        	 try {
+                 String host = client.getInetAddress().getHostName();
+                 textArea.append("Client " + host + " đã kết thúc kết nối!\n");
+                 client.close();
+                 tableModel.setValueAt("Đã ngắt kết nối.", chisohang, 2);
+             } catch (IOException e) {
+                 textArea.append("Lỗi khi đóng kết nối: " + e.getMessage() + "\n");
+             }
         }
     }
 

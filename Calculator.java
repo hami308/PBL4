@@ -19,7 +19,7 @@ public class Calculator {
         this.T = new double[Matrancoso.length][Matrancoso[0].length];
     }
 
-    // Hàm Tinhtoan để trả về mảng Object[][]
+   
     public static Object[][] computeFlow(int[][] Matrancoso, int[][] Matrandungluong,double[][] T) {
         char[] kitu = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
         int dem = 0;
@@ -47,9 +47,8 @@ public class Calculator {
                  
                     double value4 = (double) Matrandungluong[i][j] * 1000 / 800;
                     Ketqua[index][4] = value4; 
-
-                    Ketqua[index][5] = 1000 / (value4 - (double) Matrancoso[i][j]);
-                    Ketqua[index][6]=(double)Matrancoso[i][j]/tong_LD;
+                    Ketqua[index][5] = (double) Math.round((1000.0 / (value4 - (double) Matrancoso[i][j]))); // Làm tròn không có số thập phân
+                    Ketqua[index][6] = Math.round(((double) Matrancoso[i][j] / tong_LD) * 1000.0) / 1000.0; // Làm tròn tới 3 chữ số thập phân
                     T[i][j]=(double) Ketqua[index][5];
                     T[j][i]=(double) Ketqua[index][5];
                     index++;

@@ -1,4 +1,4 @@
-package View;
+package Client;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import java.awt.TextArea;
 import java.awt.TextField;
 import java.awt.Label;
+import javax.swing.ImageIcon;
 
 public class Bangsolieu extends JFrame {
 	
@@ -38,7 +39,7 @@ public class Bangsolieu extends JFrame {
 		this.Matranketqua=Matranketqua;
 		
 		
-		setSize(830,593);
+		setSize(829,593);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(new Color(0, 153, 204));
@@ -70,6 +71,11 @@ public class Bangsolieu extends JFrame {
 		label.setFont(new Font("Tahoma", Font.BOLD, 15));
 		label.setBounds(51, 435, 419, 108);
 		getContentPane().add(label);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon("D:\\workspace\\PBL4\\src\\Image\\Screenshot 2024-10-15 021019.png"));
+		lblNewLabel.setBounds(0, 0, 813, 554);
+		getContentPane().add(lblNewLabel);
 		if(Matranketqua!=null) {
 			Show(Matranketqua);
 		}
@@ -84,5 +90,4 @@ public class Bangsolieu extends JFrame {
 	    	model.addRow(row);
 	    }
 	}
-	
 }

@@ -1,4 +1,4 @@
-package View;
+package Client;
 import Client.Client_TCP;
 
 import java.awt.EventQueue;
@@ -42,14 +42,15 @@ import java.awt.FlowLayout;
 import javax.swing.UIManager;
 import java.awt.GridLayout;
 import java.awt.Button;
+import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 
 public class Mainform extends JFrame implements ActionListener{
 	
 	JButton ketthuc = new JButton("Kết thúc");
 	JButton ketqua = new JButton("Kết quả ");
+	JButton btn = new JButton("Gửi  file");
 	JButton bangsolieu = new JButton("Bảng số liệu");
-	JButton btn = new JButton("Chọn file");
-	
 	static JPanel  panel = new JPanel();
 	static JPanel  panel_ = new JPanel();
 	static GraphPanel panel_3;
@@ -59,44 +60,35 @@ public class Mainform extends JFrame implements ActionListener{
     private static int[] Distra= {1};
     private static int[] Distra1= {1};
     static Client_TCP client_tcp;
-	public Mainform() {
+	public Mainform(Client_TCP client_tcp) {
 		
-		getContentPane().setBackground(new Color(0, 153, 204));
+		this.client_tcp = client_tcp;
+		getContentPane().setBackground(Color.WHITE);
 		setTitle("Thuật toán định luồng cơ sở");
 		getContentPane().setLayout(null);
 		
 		panel_.setBackground(new Color(255, 255, 255));
-		panel_.setBounds(30, 51, 335, 317);
+		panel_.setBounds(46, 92, 366, 308);
 		getContentPane().add(panel_);
 		panel_.setLayout(null);
+		panel.setForeground(new Color(0, 0, 0));
 		
-		panel.setBackground(new Color(255, 255, 255));
-		panel.setBounds(382, 51, 384, 317);
+		panel.setBackground(new Color(248, 248, 255));
+		panel.setBounds(442, 94, 377, 306);
 		getContentPane().add(panel);
 		panel.setBorder(new TitledBorder(null, "Dữ liệu", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         panel.setLayout(null);
         
-        JLabel lblNewLabel = new JLabel("Luồng lưu thông");
-        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
-        lblNewLabel.setBounds(104, 11, 172, 29);
-        lblNewLabel.setForeground(SystemColor.textHighlight);
-        lblNewLabel.setBackground(new Color(255, 255, 255));
-        panel.add(lblNewLabel);
-        
-        JLabel lblNewLabel_1 = new JLabel("(Gói/s)");
-        lblNewLabel_1.setBounds(162, 40, 39, 19);
-        panel.add(lblNewLabel_1);
-        
         
         JPanel panel_1 = new JPanel();
-        panel_1.setBackground(new Color(255, 255, 255));
+        panel_1.setBackground(new Color(248, 248, 255));
         panel_1.setBorder(new TitledBorder(null, "Điều khiển chương trình ", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-        panel_1.setBounds(77, 409, 507, 109);
+        panel_1.setBounds(176, 440, 507, 109);
         getContentPane().add(panel_1);
         panel_1.setLayout(null);
         
         ketqua.addActionListener(this);
-        ketqua.setBackground(new Color(211, 211, 211));
+        ketqua.setBackground(new Color(100, 149, 237));
         ketqua.setFont(new Font("Tahoma", Font.PLAIN, 14));
         ketqua.setBounds(206, 44, 111, 30);
         panel_1.add(ketqua);
@@ -109,21 +101,38 @@ public class Mainform extends JFrame implements ActionListener{
         
         bangsolieu.addActionListener(this);
         bangsolieu.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        bangsolieu.setBackground(new Color(211, 211, 211));
-        bangsolieu.setBounds(52, 44, 118, 30);
+        bangsolieu.setBackground(new Color(100, 149, 237));
+        bangsolieu.setBounds(46, 44, 112, 30);
         panel_1.add(bangsolieu);
         
         btn.addActionListener(this);
         btn.setFont(new Font("Tahoma", Font.PLAIN, 14));
         btn.setBackground(new Color(255, 255, 255));
-        btn.setBounds(615, 450, 111, 35);
+        btn.setBounds(708, 479, 111, 35);
         getContentPane().add(btn);
+        
+        JLabel lblNewLabel = new JLabel("Luồng lưu thông");
+        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel.setBounds(536, 35, 172, 29);
+        getContentPane().add(lblNewLabel);
+        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 22));
+        lblNewLabel.setForeground(new Color(0, 0, 0));
+        lblNewLabel.setBackground(new Color(0, 0, 0));
+        
+        JLabel lblNewLabel_1 = new JLabel("(Gói/s)");
+        lblNewLabel_1.setBounds(601, 64, 39, 19);
+        getContentPane().add(lblNewLabel_1);
+        
+        JLabel lblNewLabel_2 = new JLabel("");
+        lblNewLabel_2.setIcon(new ImageIcon("D:\\workspace\\PBL4\\src\\Image\\Screenshot 2024-10-15 020504.png"));
+        lblNewLabel_2.setBounds(0, 0, 861, 599);
+        getContentPane().add(lblNewLabel_2);
 
-        setSize(812,593);
+        setSize(875,638);
         setLocationRelativeTo(null);
         setVisible(true);
 	}
-	public static  void show(int[][] a) {
+	public static void show(int[][] a) {
 	    int num = 0;
 	    for (int i = 0; i < a.length; i++) {
 	        for (int j = 0; j < a[i].length; j++) {
@@ -145,7 +154,7 @@ public class Mainform extends JFrame implements ActionListener{
 	                x.setHorizontalAlignment(JLabel.CENTER);
 	                x.setForeground(Color.RED);
 	                x.setFont(new Font("Tahoma", Font.PLAIN, 16));
-	                x.setBackground(new Color(211, 211, 211));
+	                x.setBackground(new Color(100, 149, 237));
 	                x.setOpaque(true);
 	                panel_2.add(x);
 	            }
@@ -154,24 +163,28 @@ public class Mainform extends JFrame implements ActionListener{
 	    panel_3 = new GraphPanel(Matrandungluong,Distra);
         
 	    JScrollPane scrollPane1 = new JScrollPane(panel_3);
-	    scrollPane1.setBounds(0, 0, 335, 317);
+	    scrollPane1.setBounds(10, 11, 346, 286);
+	    scrollPane1.setBorder(null);	 
+	    panel_3.setBackground(Color.WHITE);
 	    panel_.add(scrollPane1);
 	    panel_.revalidate();
 	    panel_.repaint();
  
 	    JScrollPane scrollPane = new JScrollPane(panel_2);
-	    scrollPane.setBounds(24, 61, 334, 229); 
+	    scrollPane.setBounds(10, 14, 357, 284); 
+	    scrollPane.setBorder(null);	 
+	    panel_.setBackground(Color.WHITE);
 	    panel.add(scrollPane);
 	    panel.revalidate();
 	    panel.repaint();
 	    
 	}
 
-	public static void main(String[] args) throws UnknownHostException, IOException {
-		new Mainform();
-		
-
-	}
+//	public static void main(String[] args) throws UnknownHostException, IOException {
+//		new Mainform();
+//		
+//
+//	}
 	public static void readMatrix(BufferedReader reader) throws IOException {
 	    int size = Integer.parseInt(reader.readLine());
 	    Matrancoso = new int[size][size];
@@ -192,10 +205,6 @@ public class Mainform extends JFrame implements ActionListener{
 	        }
 	    }
 	}
-
-	
-  
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btn) {
@@ -215,8 +224,14 @@ public class Mainform extends JFrame implements ActionListener{
 					    bfr = new BufferedReader(new FileReader(path));
 		                readMatrix(bfr); 
 		                show(Matrancoso); 
-		                client_tcp=new Client_TCP(Matrancoso, Matrandungluong);
-		                client_tcp.connectToServer();
+		                // Kiểm tra xem client_tcp đã được khởi tạo chưa
+		                if (client_tcp == null) {
+		                    client_tcp = new Client_TCP(Matrancoso, Matrandungluong);
+		                    client_tcp.sendDataToServer();
+		                } else {
+		                    // Nếu đã có kết nối, cập nhật dữ liệu cho client_tcp
+		                    client_tcp.updateData(Matrancoso, Matrandungluong);
+		                }
 		                Matranketqua=client_tcp.getMatranketqua();
 		                Distra1=client_tcp.getDistra1();
 		                
@@ -225,7 +240,7 @@ public class Mainform extends JFrame implements ActionListener{
 		                JOptionPane.showMessageDialog(this, "Không thể tìm thấy file.", "Lỗi", JOptionPane.ERROR_MESSAGE);
 		            } catch (IOException ioEx) {
 		                // Lỗi đọc file
-		                JOptionPane.showMessageDialog(this, "Lỗi khi đọc file. Vui lòng kiểm tra định dạng file.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+		                JOptionPane.showMessageDialog(this, "Lỗi khi kết nối với Server.", "Lỗi", JOptionPane.ERROR_MESSAGE);
 		            } catch (NumberFormatException nfEx) {
 		                // Lỗi định dạng số không hợp lệ
 		                JOptionPane.showMessageDialog(this, "File không đúng định dạng yêu cầu.", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -245,29 +260,36 @@ public class Mainform extends JFrame implements ActionListener{
 			}
 			
 		}
-		if(e.getSource()==ketthuc) {
-			System.exit(0);
+		if (e.getSource() == ketthuc) {
+		    if (client_tcp != null) {
+		        try {
+		            client_tcp.closeConnection();
+		        } catch (Exception ex) {
+		            JOptionPane.showMessageDialog(this, "Lỗi khi đóng kết nối: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
+		    ConnectForm connectForm = new ConnectForm();
+		    connectForm.setVisible(true);
+		    this.dispose();
 		}
 		if(e.getSource()==ketqua) {
 			if(Matrancoso==null || Matrandungluong==null) {
 				return;
 			}
-			   
 			    panel_3.updateData(Matrandungluong, Distra1);
 			    panel_.revalidate();
-			    panel_.repaint();
-			    
+			    panel_.repaint(); 
 		}
-	   if(e.getSource()==bangsolieu) {
-		 
-		this.setVisible(false);
-		Bangsolieu bsl=new Bangsolieu(Matranketqua);
-		bsl.addWindowListener(new WindowAdapter() {
-			public void windowClosed(WindowEvent e) {
-				Mainform.this.setVisible(true);
-			}
-		
-		});
-	   }
+		 if(e.getSource()==bangsolieu) {
+			 
+				this.setVisible(false);
+				Bangsolieu bsl=new Bangsolieu(Matranketqua);
+				bsl.addWindowListener(new WindowAdapter() {
+					public void windowClosed(WindowEvent e) {
+						Mainform.this.setVisible(true);
+					}
+				
+				});
+			   }
 	}
 }

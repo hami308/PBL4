@@ -1,4 +1,4 @@
-package View;
+package Client;
 
 import java.awt.*;
 
